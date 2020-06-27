@@ -176,7 +176,7 @@ async def upload_to_gdrive(file_upload, message):
         gautii = f"https://drive.google.com/folderview?id={p}"
         gau_link = re.search("(?P<url>https?://[^\s]+)", gautii).group("url")
         print(gau_link)
-        indexurl = f"{INDEX_LINK}/{file_upload}/"
+        indexurl = f"{INDEX_LINK}"
         tam_link = requests.utils.requote_uri(indexurl)
         #s_tr = '-'*40
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
