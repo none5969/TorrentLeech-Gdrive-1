@@ -154,7 +154,7 @@ async def upload_to_gdrive(file_upload, message):
         tam_link = requests.utils.requote_uri(indexurl)
         #s_tr = '-'*40
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-        await message.edit_text(f"""{file_upload}\nUploaded successfully..!!\n\nFile:  <a href="{gau_link}">Click here</a>\nFolder Link:  <a href="{tam_link}">Click here</a>""")
+        await message.edit_text(f"""{file_upload}\nUploaded successfully..!!\n\nFile:  <a href="{gau_link}">Click here</a>\nIndex Link:  <a href="{tam_link}">Click here</a>""")
         os.remove(file_upload)
     else:
         tt= os.path.join(destination, file_upload)
@@ -180,7 +180,7 @@ async def upload_to_gdrive(file_upload, message):
         tam_link = requests.utils.requote_uri(indexurl)
         #s_tr = '-'*40
         await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-        await message.edit_text(f"""Folder Uploaded successfully\n\nFile Link:  <a href="{gau_link}">Click here</a>\nFolder Link:. <a href="{tam_link}">Click here</a>""")
+        await message.edit_text(f"""Folder Uploaded successfully\n\nFile Link:  <a href="{gau_link}">Click here</a>\nIndex Link:. <a href="{tam_link}">Click here</a>""")
         shutil.rmtree(file_upload)
 
 #
