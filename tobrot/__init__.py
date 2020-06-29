@@ -3,6 +3,11 @@
 # (c) Shrimadhav U K | gautamajay52
 
 import os
+import time
+import socket
+
+socket.setdefaulttimeout(600)
+botStartTime = time.time()
 
 # the secret configuration specific things
 if bool(os.environ.get("ENV", False)):

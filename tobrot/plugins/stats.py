@@ -1,0 +1,20 @@
+# (c) Alfiananda84 
+
+import shutil
+import time
+import pyrogram
+
+from tobrot import botStartTime
+from tobrot.helper_funcs.helper_stats import get_readable_time, get_readable_file_size
+
+async def stats_bot_g(client, message):
+    currentTime = get_readable_time((time.time() - botStartTime))
+    total, used, free = shutil.disk_usage('.')
+    total = get_readable_file_size(total)
+    used = get_readable_file_size(used)
+    free = get_readable_file_size(free)
+    stats = f'Bot Uptime: {currentTime}\n' \
+            f'Total disk space: {total}\n' \
+            f'Used: {used}\n' \
+            f'Free: {free}\n' 
+    await message.reply_text(stats)

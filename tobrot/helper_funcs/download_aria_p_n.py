@@ -13,6 +13,7 @@ LOGGER = logging.getLogger(__name__)
 
 import aria2p
 import os
+import asyncio
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg, upload_to_gdrive
 from tobrot.helper_funcs.create_compressed_archive import create_archive, unzip_me, unrar_me, untar_me
 from tobrot.helper_funcs.extract_link_from_message import extract_link
