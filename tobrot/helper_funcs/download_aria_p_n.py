@@ -12,7 +12,6 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
 import aria2p
-import asyncio
 import os
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg, upload_to_gdrive
 from tobrot.helper_funcs.create_compressed_archive import create_archive, unzip_me, unrar_me, untar_me
@@ -23,7 +22,6 @@ from tobrot import (
     MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START,
     AUTH_CHANNEL,
     DOWNLOAD_LOCATION,
-    EDIT_SLEEP_TIME_OUT,
     CUSTOM_FILE_NAME
 )
 
@@ -166,7 +164,6 @@ async def call_apropriate_function(
             )
         else:
             return False, "can't get metadata \n\n#stopped"
-    await asyncio.sleep(1)
     file = aria_instance.get_download(err_message)
     to_upload_file = file.name
     #
@@ -249,7 +246,6 @@ async def call_apropriate_function_g(
         #
         err_message = await check_metadata(aria_instance, err_message)
         #
-        await asyncio.sleep(1)
         if err_message is not None:
             await check_progress_for_dl(
                 aria_instance,
@@ -259,7 +255,6 @@ async def call_apropriate_function_g(
             )
         else:
             return False, "can't get metadata \n\n#stopped"
-    await asyncio.sleep(1)
     file = aria_instance.get_download(err_message)
     to_upload_file = file.name
     #
@@ -420,10 +415,8 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                     previous_message = msg
             else:
                 msg = file.error_message
-                await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
                 await event.edit(f"`{msg}`")
                 return False
-            await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await check_progress_for_dl(aria2, gid, event, previous_message)
         else:
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)

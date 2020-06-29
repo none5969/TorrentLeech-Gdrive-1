@@ -29,7 +29,6 @@ from requests.utils import requote_uri
 
 from tobrot import (
     TG_MAX_FILE_SIZE,
-    EDIT_SLEEP_TIME_OUT,
     DOWNLOAD_LOCATION,
     DESTINATION_FOLDER,
     RCLONE_CONFIG,
@@ -126,7 +125,6 @@ async def upload_to_tg(
 #
 
 async def upload_to_gdrive(file_upload, message):
-    await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     await message.edit_text("Uploading...")
     subprocess.Popen(('touch', 'rclone.conf'), stdout = subprocess.PIPE)
     with open('rclone.conf', 'a', newline="\n") as fole:
@@ -153,7 +151,6 @@ async def upload_to_gdrive(file_upload, message):
         indexurl = f"{INDEX_LINK}"
         tam_link = requests.utils.requote_uri(indexurl)
         #s_tr = '-'*40
-        await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
         await message.edit_text(f"""{file_upload}\nUploaded successfully..!!\n\nFile:  <a href="{gau_link}">Click here</a>\nIndex Link:  <a href="{tam_link}">Click here</a>""")
         os.remove(file_upload)
     else:
@@ -178,8 +175,7 @@ async def upload_to_gdrive(file_upload, message):
         print(gau_link)
         indexurl = f"{INDEX_LINK}"
         tam_link = requests.utils.requote_uri(indexurl)
-        #s_tr = '-'*40
-        await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
+        #s_tr = '-'*4*
         await message.edit_text(f"""Folder Uploaded successfully\n\nFile Link:  <a href="{gau_link}">Click here</a>\nIndex Link:. <a href="{tam_link}">Click here</a>""")
         shutil.rmtree(file_upload)
 
@@ -248,7 +244,6 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
                 thumb = thumb_image_path
             # send video
             if edit_media and message.photo:
-                await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
                 sent_message = await message.edit_media(
                     media=InputMediaVideo(
                         media=local_file_name,
