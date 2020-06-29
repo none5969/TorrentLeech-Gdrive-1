@@ -88,8 +88,8 @@ async def upload_to_tg(
             d_f_s = humanbytes(os.path.getsize(local_file_name))
             i_m_s_g = await message.reply_text(
                 "Telegram does not support uploading this file.\n"
-                f"Detected File Size: {d_f_s} 😡\n"
-                "\n🤖 trying to split the files 🌝🌝🌚"
+                f"Detected File Size: {d_f_s} \n"
+                "\ntrying to split the files"
             )
             splitted_dir = await split_large_files(local_file_name)
             totlaa_sleif = os.listdir(splitted_dir)
@@ -98,7 +98,7 @@ async def upload_to_tg(
             LOGGER.info(totlaa_sleif)
             ba_se_file_name = os.path.basename(local_file_name)
             await i_m_s_g.edit_text(
-                f"Detected File Size: {d_f_s} 😡\n"
+                f"Detected File Size: {d_f_s} \n"
                 f"<code>{ba_se_file_name}</code> splitted into {number_of_files} files.\n"
                 "trying to upload to Telegram, now ..."
             )
@@ -175,7 +175,7 @@ async def upload_to_gdrive(file_upload, message):
         print(gau_link)
         indexurl = f"{INDEX_LINK}"
         tam_link = requests.utils.requote_uri(indexurl)
-        #s_tr = '-'*4*
+        #s_tr = '-'*40
         await message.edit_text(f"""Folder Uploaded successfully\n\nFile Link:  <a href="{gau_link}">Click here</a>\nIndex Link:. <a href="{tam_link}">Click here</a>""")
         shutil.rmtree(file_upload)
 
