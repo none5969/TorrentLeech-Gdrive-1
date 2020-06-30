@@ -1,6 +1,6 @@
 # (c) Alfiananda84 
 
-import shutil
+import shutil, psutil
 import time
 import pyrogram
 
