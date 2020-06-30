@@ -183,7 +183,6 @@ async def upload_to_gdrive(file_upload, message):
 
 
 async def upload_single_file(message, local_file_name, caption_str, from_user, edit_media):
-    await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     sent_message = None
     start_time = time.time()
     #
@@ -301,7 +300,6 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, e
                 thumb = thumb_image_path
             # send audio
             if edit_media and message.photo:
-                await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
                 sent_message = await message.edit_media(
                     media=InputMediaAudio(
                         media=local_file_name,

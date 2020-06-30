@@ -155,7 +155,6 @@ async def call_apropriate_function(
         #
         err_message = await check_metadata(aria_instance, err_message)
         #
-        await asyncio.sleep(1)
         if err_message is not None:
             await check_progress_for_dl(
                 aria_instance,
@@ -397,11 +396,9 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 except:
                     pass
                 #
-                msg = f"\nDownloading File: `{downloading_dir_name}`"
-                msg += f"\nSpeed: {file.download_speed_string()} 🔽 / {file.upload_speed_string()} 🔼"
+                msg = f"\nFile: `{downloading_dir_name}`({file.total_length_string()}"
+                msg += f"\nSpeed: {file.download_speed_string()}"
                 msg += f"\nProgress: {file.progress_string()}"
-                msg += f"\nTotal Size: {file.total_length_string()}"
-
                 if is_file is None :
                    msg += f"\n<b>Connections:</b> {file.connections}"
                 else :
@@ -409,7 +406,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
 
                 # msg += f"\nStatus: {file.status}"
                 msg += f"\nETA: {file.eta_string()}"
-                msg += f"\n<code>/cancel {gid}</code>"
+                msg += f"\n<code>GID: {gid}</code>"
                 # LOGGER.info(msg)
                 if msg != previous_message:
                     await event.edit(msg)
@@ -420,8 +417,9 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 return False
             await check_progress_for_dl(aria2, gid, event, previous_message)
         else:
-            await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-            await event.edit(f"File Downloaded Successfully: `{file.name}`")
+            await event.edit(f"`{file.name} Downloaded Successfully`")
+            await asyncio.sleep(4)
+            await event.delete()
             return True
     except Exception as e:
         LOGGER.info(str(e))

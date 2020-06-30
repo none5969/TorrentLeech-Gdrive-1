@@ -18,3 +18,10 @@ async def stats_bot_g(client, message):
             f'Used: {used}\n' \
             f'Free: {free}\n' 
     await message.reply_text(stats)
+
+async def ping_bot_g(client, message):
+    start_time = int(round(time.time() * 1000))
+    i_m_sefg = await message.reply_text(f'ping')
+    end_time = int(round(time.time() * 1000))
+    await i_m_sefg.edit_text(f"""pong! \n{end_time - start_time} ms""")
+
