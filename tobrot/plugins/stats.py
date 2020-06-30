@@ -13,10 +13,14 @@ async def stats_bot_g(client, message):
     total = get_readable_file_size(total)
     used = get_readable_file_size(used)
     free = get_readable_file_size(free)
+    cpuUsage = psutil.cpu_percent(interval=0.5)
+    memory = psutil.virtual_memory().percent
     stats = f'Bot Uptime: {currentTime}\n' \
             f'Total disk space: {total}\n' \
             f'Used: {used}\n' \
-            f'Free: {free}\n' 
+            f'Free: {free}\n' \
+            f'CPU: {cpuUsage}%\n' \
+            f'RAM: {memory}%\n'
     await message.reply_text(stats)
 
 async def ping_bot_g(client, message):
