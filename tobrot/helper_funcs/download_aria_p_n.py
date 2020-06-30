@@ -413,8 +413,10 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                     previous_message = msg
             else:
                 msg = file.error_message
+                await asyncio.sleep(15)
                 await event.edit(f"`{msg}`")
                 return False
+                await asyncio.sleep(15)
             await check_progress_for_dl(aria2, gid, event, previous_message)
         else:
             await event.edit(f"`{file.name} Downloaded Successfully`")
