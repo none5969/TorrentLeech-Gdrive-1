@@ -12,8 +12,8 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
 import aria2p
-import os
 import asyncio
+import os
 from tobrot.helper_funcs.upload_to_tg import upload_to_tg, upload_to_gdrive
 from tobrot.helper_funcs.create_compressed_archive import create_archive, unzip_me, unrar_me, untar_me
 from tobrot.helper_funcs.extract_link_from_message import extract_link
@@ -23,6 +23,7 @@ from tobrot import (
     MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START,
     AUTH_CHANNEL,
     DOWNLOAD_LOCATION,
+    EDIT_SLEEP_TIME_OUT,
     CUSTOM_FILE_NAME
 )
 
@@ -155,6 +156,7 @@ async def call_apropriate_function(
         #
         err_message = await check_metadata(aria_instance, err_message)
         #
+        await asyncio.sleep(1)
         if err_message is not None:
             await check_progress_for_dl(
                 aria_instance,
@@ -164,6 +166,7 @@ async def call_apropriate_function(
             )
         else:
             return False, "can't get metadata \n\n#stopped"
+    await asyncio.sleep(1)
     file = aria_instance.get_download(err_message)
     to_upload_file = file.name
     #
@@ -212,6 +215,30 @@ async def call_apropriate_function(
         user_id,
         response
     )
+    LOGGER.info(final_response)
+    message_to_send = ""
+    for key_f_res_se in final_response:
+        local_file_name = key_f_res_se
+        message_id = final_response[key_f_res_se]
+        channel_id = str(AUTH_CHANNEL)[4:]
+        private_link = f"https://t.me/c/{channel_id}/{message_id}"
+        message_to_send += "👉 <a href='"
+        message_to_send += private_link
+        message_to_send += "'>"
+        message_to_send += local_file_name
+        message_to_send += "</a>"
+        message_to_send += "\n"
+    if message_to_send != "":
+        mention_req_user = f"<a href='tg://user?id={user_id}'>Your Requested Files</a>\n\n"
+        message_to_send = mention_req_user + message_to_send
+        message_to_send = message_to_send + "\n\n" + "#uploads"
+    else:
+        message_to_send = "<i>FAILED</i> to upload files. 😞😞"
+    await sent_message_to_update_tg_p.reply_to_message.reply_text(
+        text=message_to_send,
+        quote=True,
+        disable_web_page_preview=True
+    )
     return True, None
 #
 
@@ -224,7 +251,8 @@ async def call_apropriate_function_g(
     cstom_file_name,
     is_unzip,
     is_unrar,
-    is_untar
+    is_untar,
+    user_message
 ):
     if incoming_link.lower().startswith("magnet:"):
         sagtus, err_message = add_magnet(aria_instance, incoming_link, c_file_name)
@@ -246,6 +274,7 @@ async def call_apropriate_function_g(
         #
         err_message = await check_metadata(aria_instance, err_message)
         #
+        await asyncio.sleep(1)
         if err_message is not None:
             await check_progress_for_dl(
                 aria_instance,
@@ -255,6 +284,7 @@ async def call_apropriate_function_g(
             )
         else:
             return False, "can't get metadata \n\n#stopped"
+    await asyncio.sleep(1)
     file = aria_instance.get_download(err_message)
     to_upload_file = file.name
     #
@@ -297,9 +327,12 @@ async def call_apropriate_function_g(
     response = {}
     LOGGER.info(response)
     user_id = sent_message_to_update_tg_p.reply_to_message.from_user.id
+    print(user_id)
     final_response = await upload_to_gdrive(
         to_upload_file,
-        sent_message_to_update_tg_p
+        sent_message_to_update_tg_p,
+        user_message,
+        user_id
     )
 #
 async def call_apropriate_function_t(
@@ -396,9 +429,10 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 except:
                     pass
                 #
-                msg = f"\nFile: `{downloading_dir_name}` ({file.total_length_string()})"
+                msg = f"\nDownloading File: `{downloading_dir_name} | {file.total_length_string()}`"
                 msg += f"\nSpeed: {file.download_speed_string()}"
                 msg += f"\nProgress: {file.progress_string()}"
+
                 if is_file is None :
                    msg += f"\n<b>Connections:</b> {file.connections}"
                 else :
@@ -406,7 +440,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
 
                 # msg += f"\nStatus: {file.status}"
                 msg += f"\nETA: {file.eta_string()}"
-                msg += f"\nGID:<code>{gid}</code>"
+                msg += f"\n<code>GID: {gid}</code>"
                 # LOGGER.info(msg)
                 if msg != previous_message:
                     await event.edit(msg)
@@ -416,11 +450,11 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 await asyncio.sleep(5)
                 await event.edit(f"`{msg}`")
                 return False
-                await asyncio.sleep(5)
+            await asyncio.sleep(5)
             await check_progress_for_dl(aria2, gid, event, previous_message)
         else:
             await asyncio.sleep(5)
-            await event.edit(f"`{file.name} Downloaded Successfully`")
+            await event.edit(f"File Downloaded Successfully: `{file.name}`")
             return True
     except Exception as e:
         LOGGER.info(str(e))
