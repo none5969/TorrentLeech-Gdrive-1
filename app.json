@@ -42,14 +42,6 @@
       "description": "should be an integer. Number of seconds to wait before cancelling a torrent.",
       "required": false
     },
-    "FINISHED_PROGRESS_STR": {
-      "description": "should be a single character.",
-      "required": false
-    },
-    "UN_FINISHED_PROGRESS_STR": {
-      "description": "should be a single character.",
-      "required": false
-    },
     "TG_OFFENSIVE_API": {
       "description": "should be an URL accepting the FormParams {i}, {m}, and {t}",
       "required": false
