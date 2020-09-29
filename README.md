@@ -6,7 +6,7 @@ https://github.com/gautamajay52/TorrentLeech-Gdrive
 
 # Telegram Torrent Leecher 🔥🤖
 
-A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.com/pyrogram/pyrogram)
+A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](ht)
 
 # Benefits :-
     ✓ Telegram File mirrorring to cloud along with its unzipping, unrar and untar
@@ -24,7 +24,7 @@ A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.c
 
 ### The Easy Way
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://github.com/none5969/TorrentLeech-Gdrive-1)
 
 ### The Legacy Way
 Simply clone the repository and run the main file:
